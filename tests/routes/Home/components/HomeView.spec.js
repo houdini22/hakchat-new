@@ -1,5 +1,5 @@
 import React from 'react'
-import { HomeView } from 'routes/Login/components/HomeView'
+import { HomeView } from 'routes/Login/components/LoginView'
 import { render } from 'enzyme'
 
 describe('(View) Login', () => {

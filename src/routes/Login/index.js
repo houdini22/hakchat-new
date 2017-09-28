@@ -1,5 +1,6 @@
-import { injectReducer } from '../../store/reducers'
 import { reducer as formReducer } from 'redux-form'
+import { injectReducer } from '../../store/reducers'
+import socketReducer from '../../store/socket'
 
 export default (store) => ({
   path: '',
@@ -10,6 +11,7 @@ export default (store) => ({
 
       injectReducer(store, { key: 'user', reducer: userReducer })
       injectReducer(store, { key: 'form', reducer: formReducer })
+      injectReducer(store, { key: 'socket', reducer: socketReducer })
 
       cb(null, LoginContainer)
     }, 'home')
