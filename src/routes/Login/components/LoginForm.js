@@ -2,33 +2,32 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Field } from 'redux-form'
 import CSSModules from 'react-css-modules'
+import { TextField } from '../../../components'
 import styles from './LoginForm.scss'
 
 export class LoginForm extends React.Component {
-  static propTypes = {}
+  static propTypes = {
+    handleSubmit: PropTypes.func.isRequired
+  }
 
   render () {
-    const {handleSubmit} = this.props
+    const { handleSubmit } = this.props
 
     return (
       <div styleName='login'>
         <form onSubmit={handleSubmit}>
-          <div>
-            <Field
-              name='user'
-              component='input'
-              type='text'
-              placeholder='Username'
-            />
-          </div>
-          <div>
-            <Field
-              name='password'
-              component='input'
-              type='password'
-              placeholder='Password'
-            />
-          </div>
+          <Field
+            name='user'
+            component={TextField}
+            type='text'
+            placeholder='Username'
+          />
+          <Field
+            name='password'
+            component={TextField}
+            type='password'
+            placeholder='Password'
+          />
           <div>
             <button type='submit'>Log In</button>
           </div>

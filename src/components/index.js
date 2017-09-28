@@ -1,5 +1,7 @@
 import App from './App'
+import TextField from './TextField'
 
-export default {
-  App
+export {
+  App,
+  TextField
 }

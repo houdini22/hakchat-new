@@ -5,12 +5,10 @@ import LoginForm from '../components/LoginForm'
 
 const FORM_NAME = 'login-form'
 
-/*
 const validate = (values) => {
   const requiredFields = [
-    'backgroundColor',
-    'size',
-    'borderRadius'
+    'user',
+    'password'
   ]
 
   const errors = {}
@@ -21,11 +19,8 @@ const validate = (values) => {
     }
   })
 
-  console.log(values)
-
   return errors
 }
- */
 
 const onSubmit = (values, dispatch) => {
   console.log(values)
@@ -34,6 +29,7 @@ const onSubmit = (values, dispatch) => {
 const _reduxForm = reduxForm({
   form: FORM_NAME,
   onSubmit,
+  validate,
   initialValues: {
     user: '',
     password: ''

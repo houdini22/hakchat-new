@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import LoginFormContainer from '../containers/LoginFormContainer'
 import styles from './Login.scss'

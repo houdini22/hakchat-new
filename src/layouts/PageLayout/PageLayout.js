@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router'
 import CSSModules from 'react-css-modules'
 import styles from './PageLayout.scss'
 
