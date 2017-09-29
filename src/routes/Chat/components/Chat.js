@@ -1,33 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import LoginFormContainer from '../containers/LoginFormContainer'
-import { LoadingOverlay } from '../../../components'
-import styles from './Login.scss'
+import styles from './Chat.scss'
 
-export class LoginView extends React.Component {
+export class ChatView extends React.Component {
   static propTypes = {
-    connect: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired,
     socket: PropTypes.object.isRequired
   }
 
-  componentDidMount () {
-    const { connect } = this.props
-    connect()
-  }
-
   render () {
-    const { socket: { connected } } = this.props
-
     return (
-      <div styleName='login'>
-        <LoginFormContainer />
-        {!connected && (
-          <LoadingOverlay />
-        )}
+      <div styleName='chat'>
+        Hello!
       </div>
     )
   }
 }
 
-export default CSSModules(LoginView, styles)
+export default CSSModules(ChatView, styles)

@@ -6,7 +6,6 @@ import { loggedIn, loggedOff } from './user'
 // ------------------------------------
 export const CONNECTED = 'socket::connected'
 export const DISCONNECTED = 'socket::disconnected'
-export const LOGGED_IN = 'socket::logged_in'
 
 const connected = () => (dispatch) => {
   dispatch({ type: CONNECTED })
@@ -22,6 +21,8 @@ const disconnected = () => (dispatch) => {
 export const connect = () => async (dispatch) => {
   socket.off('connect')
   socket.off('disconnected')
+  socket.off('logged in')
+
   socket.on('connect', () => {
     dispatch(connected())
   })
@@ -32,10 +33,11 @@ export const connect = () => async (dispatch) => {
   socket.on('logged in', (data) => {
     dispatch(loggedIn(data))
   })
+
   socket.open()
 }
 
-export const login = (username, password) => async (dispatch) => {
+export const logIn = (username, password) => async (dispatch) => {
   socket.emit('login', {
     username,
     password
@@ -44,7 +46,7 @@ export const login = (username, password) => async (dispatch) => {
 
 export const actions = {
   connect,
-  login
+  logIn
 }
 
 // ------------------------------------

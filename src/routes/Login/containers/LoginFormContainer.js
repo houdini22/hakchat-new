@@ -1,7 +1,7 @@
 import { reduxForm, formValueSelector } from 'redux-form'
 import { connect } from 'react-redux'
 import LoginForm from '../components/LoginForm'
-import { login } from '../../../store/socket'
+import { logIn } from '../../../store/socket'
 
 const FORM_NAME = 'login-form'
 
@@ -23,7 +23,7 @@ const validate = (values) => {
 }
 
 const onSubmit = (values, dispatch) => {
-  dispatch(login(values.user, values.password))
+  dispatch(logIn(values.user, values.password))
 }
 
 const _reduxForm = reduxForm({

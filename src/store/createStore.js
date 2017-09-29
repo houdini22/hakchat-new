@@ -3,12 +3,20 @@ import thunk from 'redux-thunk'
 import { browserHistory } from 'react-router'
 import makeRootReducer from './reducers'
 import { updateLocation } from './location'
+import { LOGGED_IN } from './user'
+
+const authMiddleware = store => next => action => {
+  if (action.type === LOGGED_IN) {
+    browserHistory.push('/chat')
+  }
+  return next(action)
+}
 
 const createStore = (initialState = {}) => {
   // ======================================================
   // Middleware Configuration
   // ======================================================
-  const middleware = [thunk]
+  const middleware = [thunk, authMiddleware]
 
   // ======================================================
   // Store Enhancers

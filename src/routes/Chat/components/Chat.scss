@@ -1,14 +1,10 @@
 @import '../../../styles/variables';
 
-.login {
-  width: 300px;
-  height: 300px;
+.chat {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  margin-left: -150px;
-  margin-top: -150px;
-  border: 1px solid $color_shady_lady_approx;
-  text-align: center;
-  line-height: 300px;
+  left: 10%;
+  right: 10%;
+  top: 10%;
+  bottom: 10%;
+  border: 1px solid gray;
 }

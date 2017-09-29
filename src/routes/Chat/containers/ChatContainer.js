@@ -1,14 +1,12 @@
 import { connect } from 'react-redux'
-import Home from '../components/Login'
+import Chat from '../components/Chat'
 import { actions } from '../../../store/socket'
 
-const mapDispatchToProps = {
-  connect: actions.connect
-}
+const mapDispatchToProps = {}
 
 const mapStateToProps = (state) => ({
   user: { ...(state.user) },
   socket: { ...(state.socket) }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
+export default connect(mapStateToProps, mapDispatchToProps)(Chat)
