@@ -28,7 +28,7 @@ export class LoginForm extends React.Component {
             type='password'
             placeholder='Password'
           />
-          <div>
+          <div styleName='button-container'>
             <button type='submit'>Log In</button>
           </div>
         </form>

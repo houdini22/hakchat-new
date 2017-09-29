@@ -4,8 +4,17 @@
   display: inline-block;
   vertical-align: middle;
   line-height: 1;
+  position: relative;
 }
 
 .field {
   margin-bottom: 15px;
+}
+
+.button-container {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  text-align: center;
 }

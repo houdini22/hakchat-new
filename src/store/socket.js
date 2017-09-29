@@ -4,16 +4,27 @@ import socket from '../modules/socket'
 // Constants
 // ------------------------------------
 export const CONNECTED = 'socket::connected'
+export const DISCONNECTED = 'socket::disconnected'
+
+const connected = () => (dispatch) => {
+  dispatch({ type: CONNECTED })
+}
+
+const disconnected = () => (dispatch) => {
+  dispatch({ type: DISCONNECTED })
+}
 
 // ------------------------------------
 // Actions
 // ------------------------------------
 export const connect = () => async (dispatch) => {
   socket.off('connect')
+  socket.off('disconnected')
   socket.on('connect', () => {
-    dispatch({
-      type: CONNECTED
-    })
+    dispatch(connected())
+  })
+  socket.on('disconnect', () => {
+    dispatch(disconnected())
   })
   socket.open()
 }
@@ -32,6 +43,12 @@ const ACTION_HANDLERS = {
       connected: true
     }
   },
+  [DISCONNECTED]: (state) => {
+    return {
+      ...state,
+      connected: false
+    }
+  }
 }
 
 // ------------------------------------
