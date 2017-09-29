@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import Chat from '../components/Chat'
-import { actions } from '../../../store/socket'
+import { actions } from '../../../reducers/socket'
 
 const mapDispatchToProps = {}
 

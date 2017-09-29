@@ -1,4 +1,4 @@
-import App from './App'
+import App from '../main'
 import TextField from './TextField'
 import LoadingOverlay from './LoadingOverlay'
 

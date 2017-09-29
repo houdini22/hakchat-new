@@ -1,6 +1,6 @@
 import {
   default as createStore
-} from 'store/createStore'
+} from 'reducers/createStore'
 
 describe('(Store) createStore', () => {
   let store
@@ -15,7 +15,7 @@ describe('(Store) createStore', () => {
   })
 
   describe('(Location)', () => {
-    it('store should be initialized with Location state', () => {
+    it('reducers should be initialized with Location state', () => {
       const location = {
         pathname : '/echo'
       }

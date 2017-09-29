@@ -1,59 +1,45 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import createStore from './store/createStore'
-import './styles/main.scss'
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
+import { Provider } from 'react-redux'
+import { Router, Route, IndexRoute, browserHistory } from 'react-router'
+import { routerReducer, syncHistoryWithStore, routerMiddleware } from 'react-router-redux'
+import thunkMiddleware from 'redux-thunk'
+import { reducer as formReducer } from 'redux-form'
 
-// Store Initialization
-// ------------------------------------
-const store = createStore(window.__INITIAL_STATE__)
+import * as reducers from './reducers'
+import { userIsAuthenticated } from './auth'
+import PageLayout from './layouts/PageLayout/PageLayout'
 
-// Render Setup
-// ------------------------------------
-const MOUNT_NODE = document.getElementById('root')
+import LoginContainer from './routes/Login'
+import ChatContainer from './routes/Chat'
 
-let render = () => {
-  const App = require('./components/App').default
-  const routes = require('./routes/index').default(store)
+const baseHistory = browserHistory
+const routingMiddleware = routerMiddleware(baseHistory)
+const reducer = combineReducers({
+  ...reducers,
+  routing: routerReducer,
+  form: formReducer
+})
 
-  ReactDOM.render(
-    <App store={store} routes={routes} />,
-    MOUNT_NODE
-  )
-}
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
-// Development Tools
-// ------------------------------------
-if (__DEV__) {
-  if (module.hot) {
-    const renderApp = render
-    const renderError = (error) => {
-      const RedBox = require('redbox-react').default
+const store = createStore(reducer, composeEnhancers(
+  applyMiddleware(thunkMiddleware, routingMiddleware)
+))
 
-      ReactDOM.render(<RedBox error={error} />, MOUNT_NODE)
-    }
+const history = syncHistoryWithStore(baseHistory, store)
 
-    render = () => {
-      try {
-        renderApp()
-      } catch (e) {
-        renderError(e)
-      }
-    }
-
-    // Setup hot module replacement
-    module.hot.accept([
-        './components/App',
-        './routes/index',
-      ], () => {
-        return setImmediate(() => {
-          ReactDOM.unmountComponentAtNode(MOUNT_NODE)
-          render()
-        })
-      }
-    )
-  }
-}
-
-// Let's Go!
-// ------------------------------------
-if (!__TEST__) render()
+ReactDOM.render(
+  <Provider store={store}>
+    <div>
+      <Router history={history}>
+        <Route path='/' component={PageLayout}>
+          <IndexRoute component={LoginContainer}/>
+          <Route path='chat' component={userIsAuthenticated(ChatContainer)}/>
+        </Route>
+      </Router>
+    </div>
+  </Provider>,
+  document.getElementById('root')
+)

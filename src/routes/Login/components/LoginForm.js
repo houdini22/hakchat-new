@@ -17,7 +17,7 @@ export class LoginForm extends React.Component {
       <div styleName='login'>
         <form onSubmit={handleSubmit}>
           <Field
-            name='user'
+            name='username'
             component={TextField}
             type='text'
             placeholder='Username'
