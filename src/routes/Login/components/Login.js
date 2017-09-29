@@ -8,7 +8,8 @@ import styles from './Login.scss'
 export class LoginView extends React.Component {
   static propTypes = {
     connect: PropTypes.func.isRequired,
-    socket: PropTypes.object.isRequired
+    socket: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired
   }
 
   componentDidMount () {
@@ -16,14 +17,21 @@ export class LoginView extends React.Component {
     connect()
   }
 
+  componentWillReceiveProps (nextProps) {
+    const { user: { isLoggedIn } } = nextProps
+    if (isLoggedIn) {
+      this.props.router.push('/chat')
+    }
+  }
+
   render () {
     const { socket: { connected } } = this.props
 
     return (
       <div styleName='login'>
-        <LoginFormContainer />
+        <LoginFormContainer/>
         {!connected && (
-          <LoadingOverlay />
+          <LoadingOverlay/>
         )}
       </div>
     )
