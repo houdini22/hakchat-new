@@ -1,10 +1,12 @@
 import socket from '../modules/socket'
+import { loggedIn, loggedOff } from './user'
 
 // ------------------------------------
 // Constants
 // ------------------------------------
 export const CONNECTED = 'socket::connected'
 export const DISCONNECTED = 'socket::disconnected'
+export const LOGGED_IN = 'socket::logged_in'
 
 const connected = () => (dispatch) => {
   dispatch({ type: CONNECTED })
@@ -24,13 +26,25 @@ export const connect = () => async (dispatch) => {
     dispatch(connected())
   })
   socket.on('disconnect', () => {
+    dispatch(loggedOff())
     dispatch(disconnected())
+  })
+  socket.on('logged in', (data) => {
+    dispatch(loggedIn(data))
   })
   socket.open()
 }
 
+export const login = (username, password) => async (dispatch) => {
+  socket.emit('login', {
+    username,
+    password
+  })
+}
+
 export const actions = {
   connect,
+  login
 }
 
 // ------------------------------------

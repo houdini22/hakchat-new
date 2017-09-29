@@ -6,7 +6,10 @@ import styles from './TextField.scss'
 
 class TextField extends React.Component {
   static propTypes = {
-    type: PropTypes.string
+    type: PropTypes.string,
+    input: PropTypes.object,
+    label: PropTypes.string,
+    meta: PropTypes.object
   }
 
   render () {
