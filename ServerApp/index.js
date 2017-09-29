@@ -26,6 +26,7 @@ io.on('connection', (socket) => {
   // on LOGIN
   socket.on('login', (payload) => {
     const { username, password } = payload
+    let found = false
 
     data.users.forEach((user) => {
       if (user.username === username && password === user.password) {
@@ -36,8 +37,14 @@ io.on('connection', (socket) => {
           username,
           token: socket.id
         })
+        found = true
+        return false
       }
     })
+
+    if (!found) {
+      socket.emit('login failed')
+    }
   })
 
   // save session

@@ -7,6 +7,8 @@ import { routerReducer, syncHistoryWithStore, routerMiddleware } from 'react-rou
 import thunkMiddleware from 'redux-thunk'
 import { reducer as formReducer } from 'redux-form'
 
+import './styles/main.scss'
+
 import * as reducers from './reducers'
 import { userIsAuthenticated } from './auth'
 import PageLayout from './layouts/PageLayout/PageLayout'

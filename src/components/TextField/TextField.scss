@@ -1,3 +1,5 @@
+@import '../../styles/variables';
+
 .field {
   margin-bottom: 15px;
   text-align: left;
@@ -6,7 +8,7 @@
 
 .has-error {
   input {
-    border: 1px solid firebrick;
+    border: 1px solid $color_red;
   }
 }
 
@@ -17,6 +19,6 @@
 }
 
 .error-message {
-  color: firebrick;
+  color: $color_red;
   margin-top: 8px;
 }

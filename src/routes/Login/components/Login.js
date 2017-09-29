@@ -9,7 +9,9 @@ export class LoginView extends React.Component {
   static propTypes = {
     connect: PropTypes.func.isRequired,
     socket: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired,
+    loginFailed: PropTypes.bool
   }
 
   componentDidMount () {
@@ -25,14 +27,19 @@ export class LoginView extends React.Component {
   }
 
   render () {
-    const { socket: { connected } } = this.props
+    const { socket: { connected, loginInProgress, loginFailed } } = this.props
 
     return (
-      <div styleName='login'>
-        <LoginFormContainer/>
-        {!connected && (
-          <LoadingOverlay/>
-        )}
+      <div styleName='login-container-outer'>
+        <div styleName='login-container-inner'>
+          <LoginFormContainer/>
+          {loginFailed && (
+            <p styleName='error-message'>Wrong credentials</p>
+          )}
+          {(!connected || loginInProgress) && (
+            <LoadingOverlay/>
+          )}
+        </div>
       </div>
     )
   }

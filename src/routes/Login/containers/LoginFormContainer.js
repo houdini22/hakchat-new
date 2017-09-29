@@ -7,7 +7,7 @@ const FORM_NAME = 'login-form'
 
 const validate = (values) => {
   const requiredFields = [
-    'user',
+    'username',
     'password'
   ]
 

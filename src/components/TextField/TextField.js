@@ -21,7 +21,7 @@ class TextField extends React.Component {
 
     return (
       <div className={classNames(classes)}>
-        <input {...input} {...custom} styleName='input' />
+        <input {...input} {...custom} styleName='input' autoComplete='off' />
         {!!error && touched && (
           <p styleName='error-message'>{error}</p>
         )}

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Field } from 'redux-form'
 import CSSModules from 'react-css-modules'
-import { TextField } from '../../../components'
+import { TextField, Button } from '../../../components'
 import styles from './LoginForm.scss'
 
 export class LoginForm extends React.Component {
@@ -29,7 +29,7 @@ export class LoginForm extends React.Component {
             placeholder='Password'
           />
           <div styleName='button-container'>
-            <button type='submit'>Log In</button>
+            <Button type='submit'>Log In</Button>
           </div>
         </form>
       </div>
