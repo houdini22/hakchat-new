@@ -6,7 +6,8 @@ const mapDispatchToProps = {}
 
 const mapStateToProps = (state) => ({
   user: { ...(state.user) },
-  socket: { ...(state.socket) }
+  socket: { ...(state.socket) },
+  chat : { ...(state.chat) }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat)

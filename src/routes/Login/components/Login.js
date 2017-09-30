@@ -36,10 +36,10 @@ export class LoginView extends React.Component {
           {loginFailed && (
             <p styleName='error-message'>Wrong credentials</p>
           )}
-          {(!connected || loginInProgress) && (
-            <LoadingOverlay/>
-          )}
         </div>
+        {(!connected || loginInProgress) && (
+          <LoadingOverlay/>
+        )}
       </div>
     )
   }
