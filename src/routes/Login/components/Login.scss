@@ -8,9 +8,15 @@
   top: 50%;
   margin-left: -150px;
   margin-top: -150px;
-  border: 1px solid $color_shady_lady_approx;
   text-align: center;
   line-height: 300px;
+  border: 1px solid #999;
+  border: 1px solid rgba(0,0,0,.2);
+  border-radius: 6px;
+  box-shadow: 0 3px 9px rgba(0,0,0,.5);
+  background-clip: padding-box;
+  outline: 0;
+  background-color: #fff;
 }
 
 .login-container-inner {

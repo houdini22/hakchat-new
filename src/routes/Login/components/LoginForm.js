@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Field } from 'redux-form'
 import CSSModules from 'react-css-modules'
-import { TextField, Button } from '../../../components'
+import { Button } from 'react-bootstrap'
+import { TextField } from '../../../components'
 import styles from './LoginForm.scss'
 
 export class LoginForm extends React.Component {

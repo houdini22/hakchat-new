@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModule from 'react-css-modules'
+import { FormGroup, FormControl, HelpBlock } from 'react-bootstrap'
 import classNames from 'classnames'
 import styles from './TextField.scss'
 
@@ -14,18 +15,19 @@ class TextField extends React.Component {
 
   render () {
     const { input, label, meta: { touched, error }, ...custom } = this.props
-    const classes = {
-      [styles.field]: true,
-      [styles['has-error']]: !!error && touched
+
+    let validationState = null
+    if (touched) {
+      validationState = !error ? 'success' : 'error'
     }
 
     return (
-      <div className={classNames(classes)}>
-        <input {...input} {...custom} styleName='input' autoComplete='off' />
+      <FormGroup validationState={validationState}>
+        <FormControl {...input} {...custom} autoComplete='off'/>
         {!!error && touched && (
-          <p styleName='error-message'>{error}</p>
+          <HelpBlock>{error}</HelpBlock>
         )}
-      </div>
+      </FormGroup>
     )
   }
 }
