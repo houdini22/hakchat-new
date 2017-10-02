@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
+import { Alert } from 'reactstrap'
 import LoginFormContainer from '../containers/LoginFormContainer'
 import { LoadingOverlay } from '../../../components'
-import styles from './Login.module.less'
+import styles from './Login.module.scss'
 
 export class LoginView extends React.Component {
   static propTypes = {
@@ -34,7 +35,9 @@ export class LoginView extends React.Component {
         <div styleName='login-container-inner'>
           <LoginFormContainer/>
           {loginFailed && (
-            <p styleName='error-message'>Wrong credentials</p>
+            <Alert color='danger' styleName='error-message'>
+              Wrong credentials!
+            </Alert>
           )}
         </div>
         {(!connected || loginInProgress) && (

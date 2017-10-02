@@ -1,22 +1,22 @@
-@import '../../../styles/_variables.less';
+@import '../../../styles/variables';
 
 .login-container-outer {
   width: 300px;
-  height: 300px;
+  height: 400px;
   position: absolute;
   left: 50%;
   top: 50%;
   margin-left: -150px;
   margin-top: -150px;
   text-align: center;
-  line-height: 300px;
+  line-height: 400px;
   border: 1px solid #999;
   border: 1px solid rgba(0,0,0,.2);
   border-radius: 6px;
   box-shadow: 0 3px 9px rgba(0,0,0,.5);
   background-clip: padding-box;
   outline: 0;
-  background-color: @color4;
+  background-color: $color2;
 }
 
 .login-container-inner {
@@ -32,5 +32,4 @@
   right: 0;
   bottom: 0;
   text-align: center;
-  color: @color_red;
 }

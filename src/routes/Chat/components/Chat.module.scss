@@ -1,4 +1,4 @@
-@import '../../../styles/_variables.less';
+@import '../../../styles/variables';
 
 .chat-container {
   position: absolute;
@@ -13,12 +13,12 @@
 }
 
 .col-1 {
-  background-color: @color4;
-  border-right: 1px solid @color5;
+  background-color: $color2;
+  border-right: 1px solid $color3;
 }
 
 .col-2 {
-  background-color: @color1;
+  background-color: $color1;
 }
 
 .message-container {
@@ -27,7 +27,7 @@
   right: 0;
   bottom: 0;
   height: 40px;
-  border-top: 1px solid @color5;
+  border-top: 1px solid $color3;
 
   input[type=text] {
     border: 0 none;

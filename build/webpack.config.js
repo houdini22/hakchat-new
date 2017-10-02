@@ -101,7 +101,7 @@ const extractStyles = new ExtractTextPlugin({
 
 config.module.rules.push(
   {
-    test: /\.module\.less/,
+    test: /\.module\.scss/,
     exclude: /node_modules/,
     use: ExtractTextPlugin.extract({
       fallback: 'style-loader',
@@ -115,12 +115,12 @@ config.module.rules.push(
             localIdentName: '[name]__[local]___[hash:base64:5]'
           }
         },
-        'less-loader'
+        'sass-loader'
       ]
     }),
   },
   {
-    test: /^((?!\.module).)*less$/,
+    test: /^((?!\.module).)*scss/,
     exclude: /node_modules/,
     use: ExtractTextPlugin.extract({
       fallback: 'style-loader',
@@ -131,7 +131,7 @@ config.module.rules.push(
             sourceMap: true,
           }
         },
-        'less-loader'
+        'sass-loader'
       ]
     }),
   }

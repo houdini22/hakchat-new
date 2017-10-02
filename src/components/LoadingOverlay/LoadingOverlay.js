@@ -1,6 +1,6 @@
 import React from 'react'
 import CSSModule from 'react-css-modules'
-import styles from './LoadingOverlay.module.less'
+import styles from './LoadingOverlay.module.scss'
 
 class LoadingOverlay extends React.Component {
   render () {

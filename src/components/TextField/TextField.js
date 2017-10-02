@@ -1,9 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModule from 'react-css-modules'
-import { FormGroup, FormControl, HelpBlock } from 'react-bootstrap'
-import classNames from 'classnames'
-import styles from './TextField.module.less'
+import { FormGroup, Input, FormFeedback } from 'reactstrap'
+import styles from './TextField.module.scss'
 
 class TextField extends React.Component {
   static propTypes = {
@@ -18,14 +17,14 @@ class TextField extends React.Component {
 
     let validationState = null
     if (touched) {
-      validationState = !error ? 'success' : 'error'
+      validationState = !error ? 'success' : 'danger'
     }
 
     return (
-      <FormGroup validationState={validationState}>
-        <FormControl {...input} {...custom} autoComplete='off'/>
+      <FormGroup color={validationState}>
+        <Input {...input} {...custom} autoComplete='off' state={validationState}/>
         {!!error && touched && (
-          <HelpBlock>{error}</HelpBlock>
+          <FormFeedback>{error}</FormFeedback>
         )}
       </FormGroup>
     )

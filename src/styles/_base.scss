@@ -1,9 +1,13 @@
-@import '_variables.less';
+@import '_variables.scss';
 
 body {
   width: 100%;
   height: 100vh;
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
-  font-size: 11px;
-  background: @color1;
+  font-size: 13px;
+  background: $color1;
+}
+
+.btn {
+  cursor: pointer;
 }

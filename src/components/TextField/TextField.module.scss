@@ -1,4 +1,4 @@
-@import '../../styles/_variables.less';
+@import '../../styles/variables';
 
 .field {
   margin-bottom: 15px;
@@ -8,11 +8,11 @@
 
 .has-error {
   input {
-    border: 1px solid @color_red;
+    border: 1px solid $color_red;
   }
 }
 
 .error-message {
-  color: @color_red;
+  color: $color_red;
   margin-top: 8px;
 }
