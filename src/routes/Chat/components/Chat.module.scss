@@ -14,7 +14,7 @@
   height: 100%;
 }
 
-@include media-breakpoint-between(sm, lg) {
+@include media-breakpoint-up(sm) {
   .col {
     height: 100%;
   }
@@ -31,7 +31,7 @@
   }
 }
 
-@include media-breakpoint-between(sm, lg) {
+@include media-breakpoint-up(sm) {
   .col-1 {
     height: 100%;
     border-right: 1px solid $color3;
