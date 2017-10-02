@@ -1,3 +1,5 @@
+import socket from '../modules/socket'
+
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -12,18 +14,19 @@ export const userJoined = (data) => (dispatch) => {
   dispatch({ type: USER_JOINED, payload: data })
 }
 
-export const userStartsWriting = (user) => (dispatch) => {
-  dispatch({ type: USER_STARTS_WRITING, payload: user })
+export const userStartsWriting = (data) => (dispatch) => {
+  console.log(data)
+  dispatch({ type: USER_STARTS_WRITING, payload: data.user.username })
 }
 
-export const userStopsWriting = (user) => (dispatch) => {
-  dispatch({ type: USER_STOPS_WRITING, payload: user })
+export const userStopsWriting = (data) => (dispatch) => {
+  dispatch({ type: USER_STOPS_WRITING, payload: data.user.username })
 }
 
 export const actions = {
   userJoined,
   userStartsWriting,
-  userStopsWriting
+  userStopsWriting,
 }
 
 // ------------------------------------

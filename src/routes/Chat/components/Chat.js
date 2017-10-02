@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import { Row, Col } from 'reactstrap'
+import socket from '../../../modules/socket'
 import styles from './Chat.module.scss'
 
 export class ChatView extends React.Component {
@@ -10,31 +11,38 @@ export class ChatView extends React.Component {
     socket: PropTypes.object.isRequired,
     chat: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
-    userStartsWriting: PropTypes.func.isRequired
   }
 
   constructor (props) {
     super(props)
 
-    this.startWritingTimeout = null;
+    this.startWritingTimeout = null
 
     this.handleKeyDown = this.handleKeyDown.bind(this)
   }
 
   handleKeyDown (e) {
-    const { dispatch, userStartsWriting, user } = this.props
+    const { user } = this.props
     const message = this.input.value.trim()
 
     if (e.keyCode === 13) {
       if (message) {
-        console.log(message)
+        socket.emit('user stops writing', {
+          user: {
+            username: user.user.username
+          }
+        })
         this.input.value = ''
       }
     } else {
       clearTimeout(this.startWritingTimeout)
       this.startWritingTimeout = setTimeout(() => {
-        userStartsWriting(user.user.username)
-      }, 100)
+        socket.emit('user starts writing', {
+          user: {
+            username: user.user.username
+          }
+        })
+      }, 200)
     }
   }
 

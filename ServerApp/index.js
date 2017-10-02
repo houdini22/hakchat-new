@@ -56,6 +56,20 @@ io.on('connection', (socket) => {
           time: new Date()
         })
       })
+      socket.on('user starts writing', (data) => {
+        io.to('main').emit('user starts writing', {
+          user: {
+            username: data.user.username,
+          }
+        })
+      })
+      socket.on('user stops writing', (data) => {
+        io.to('main').emit('user stops writing', {
+          user: {
+            username: data.user.username,
+          }
+        })
+      })
     }
   })
 
