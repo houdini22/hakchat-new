@@ -42,7 +42,7 @@ export class ChatView extends React.Component {
             username: user.user.username
           }
         })
-      }, 200)
+      }, 100)
     }
   }
 
@@ -53,8 +53,10 @@ export class ChatView extends React.Component {
       <div styleName='chat-container'>
         <Row className={`${styles['row']}`}>
           <Col md={3} sm={4} xs={12} className={`${styles['col']} ${styles['col-1']}`}>
-            <ul>
-              {users.map((user) => {
+            <ul styleName='user-list'>
+              {users.sort((a, b) => {
+                return a.username > b.username
+              }).map((user) => {
                 const { username, isWriting } = user
                 return (
                   <li key={username}>

@@ -15,7 +15,6 @@ export const userJoined = (data) => (dispatch) => {
 }
 
 export const userStartsWriting = (data) => (dispatch) => {
-  console.log(data)
   dispatch({ type: USER_STARTS_WRITING, payload: data.user.username })
 }
 
