@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import LoginFormContainer from '../containers/LoginFormContainer'
 import { LoadingOverlay } from '../../../components'
-import styles from './Login.scss'
+import styles from './Login.module.less'
 
 export class LoginView extends React.Component {
   static propTypes = {

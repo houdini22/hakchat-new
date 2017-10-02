@@ -99,34 +99,12 @@ const extractStyles = new ExtractTextPlugin({
   disable: __DEV__,
 })
 
-config.module.rules.push({
-    test: /\.css$/,
-    exclude: /node_modules/,
-    use: ExtractTextPlugin.extract({
-      fallback: 'style-loader',
-
-      // Could also be write as follow:
-      // use: 'css-loader?modules&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader'
-      use: [
-        {
-          loader: 'css-loader',
-          query: {
-            modules: true,
-            localIdentName: '[name]__[local]___[hash:base64:5]'
-          }
-        },
-        'postcss-loader'
-      ]
-    }),
-  },
+config.module.rules.push(
   {
-    test: /\.scss$/,
+    test: /\.module\.less/,
     exclude: /node_modules/,
     use: ExtractTextPlugin.extract({
       fallback: 'style-loader',
-
-      // Could also be write as follow:
-      // use: 'css-loader?modules&importLoader=2&sourceMap&localIdentName=[name]__[local]___[hash:base64:5]!sass-loader'
       use: [
         {
           loader: 'css-loader',
@@ -137,10 +115,27 @@ config.module.rules.push({
             localIdentName: '[name]__[local]___[hash:base64:5]'
           }
         },
-        'sass-loader'
+        'less-loader'
       ]
     }),
-  })
+  },
+  {
+    test: /^((?!\.module).)*less$/,
+    exclude: /node_modules/,
+    use: ExtractTextPlugin.extract({
+      fallback: 'style-loader',
+      use: [
+        {
+          loader: 'css-loader',
+          query: {
+            sourceMap: true,
+          }
+        },
+        'less-loader'
+      ]
+    }),
+  }
+)
 
 config.plugins.push(extractStyles)
 

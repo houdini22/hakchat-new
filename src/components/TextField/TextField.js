@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import CSSModule from 'react-css-modules'
 import { FormGroup, FormControl, HelpBlock } from 'react-bootstrap'
 import classNames from 'classnames'
-import styles from './TextField.scss'
+import styles from './TextField.module.less'
 
 class TextField extends React.Component {
   static propTypes = {

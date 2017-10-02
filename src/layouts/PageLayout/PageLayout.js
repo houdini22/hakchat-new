@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import styles from './PageLayout.scss'
+import styles from './PageLayout.module.less'
 
 class PageLayout extends React.Component {
   render () {
