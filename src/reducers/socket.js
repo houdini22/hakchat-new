@@ -1,5 +1,6 @@
 import socket from '../modules/socket'
 import { loggedIn, loggedOff } from './user'
+import { userJoined } from './chat'
 
 // ------------------------------------
 // Constants
@@ -34,6 +35,7 @@ export const connect = () => async (dispatch) => {
   socket.off('connect')
   socket.off('disconnected')
   socket.off('logged in')
+  socket.off('user joined')
 
   socket.on('connect', () => {
     clearInterval(interval)
@@ -55,6 +57,9 @@ export const connect = () => async (dispatch) => {
   socket.on('login failed', () => {
     dispatch(loginInProgress(false))
     dispatch(loginFailed(true))
+  })
+  socket.on('user joined', (data) => {
+    dispatch(userJoined(data))
   })
 
   socket.connect()

@@ -1,8 +1,10 @@
 import { connect } from 'react-redux'
 import Chat from '../components/Chat'
-import { actions } from '../../../reducers/socket'
+import { actions } from '../../../reducers/chat'
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {
+  userStartsWriting: actions.userStartsWriting
+}
 
 const mapStateToProps = (state) => ({
   user: { ...(state.user) },

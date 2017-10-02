@@ -2,6 +2,7 @@ const http = require('http')
 const server = http.createServer()
 const socketIO = require('socket.io')
 const io = socketIO()
+const moment = require('moment')
 
 const data = require('./data')
 
@@ -44,6 +45,17 @@ io.on('connection', (socket) => {
 
     if (!found) {
       socket.emit('login failed')
+    }
+
+    if (found) {
+      socket.join('main', () => {
+        io.to('main').emit('user joined', {
+          user: {
+            username
+          },
+          time: new Date()
+        })
+      })
     }
   })
 
