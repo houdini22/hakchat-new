@@ -1,0 +1,35 @@
+@import '../../../styles/variables';
+
+.message {
+  margin: 0;
+  padding: 0;
+
+  &:nth-child(even) {
+    background: $color9;
+  }
+
+  p {
+    margin: 0;
+    padding: 0 5px;
+    font-size: 13px;
+    > * {
+      display: inline-block;
+      margin-right: 6px;
+    }
+  }
+
+  &.has-my-nick {
+    background-color: $color3;
+  }
+}
+
+.nick {
+  font-weight: bold;
+}
+
+.message-content {
+  a {
+    color: black;
+    text-decoration: underline;
+  }
+}

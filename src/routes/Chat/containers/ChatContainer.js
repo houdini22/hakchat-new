@@ -3,8 +3,6 @@ import Chat from '../components/Chat'
 
 const mapDispatchToProps = {}
 
-const mapStateToProps = (state) => ({
-  chat: { ...(state.chat) }
-})
+const mapStateToProps = (state) => ({})
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat)

@@ -1,0 +1,17 @@
+@import '../../../styles/variables';
+
+.user-list {
+  list-style-type: none;
+  left: -15px;
+  right: -15px;
+  margin: 0;
+  margin-top: 15px;
+  padding: 0;
+
+  li {
+    width: 100%;
+    padding: 0 5px;
+    font-size: 13px;
+    line-height: 18px;
+  }
+}

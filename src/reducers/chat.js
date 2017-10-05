@@ -1,9 +1,5 @@
 import socket from '../modules/socket'
-// helpers
-
-const hasNickInMessage = (nick, message) => {
-  return (new RegExp(`(@${nick}(\\s|$))`)).test(message)
-}
+import { hasMyNickInMessage } from '../helpers/chat'
 
 // ------------------------------------
 // Constants
@@ -74,7 +70,7 @@ export const sendMessage = (message) => (dispatch, getState) => {
 }
 
 export const messageReceived = (data) => (dispatch) => {
-  const important = hasNickInMessage(data.user.username, data.message)
+  const important = hasMyNickInMessage(data.user.username, data.message)
 
   if (important) {
     try {
