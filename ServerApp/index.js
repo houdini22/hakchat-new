@@ -58,6 +58,13 @@ io.on('connection', (socket) => {
       })
 
       let timeout = null
+      const emitStop = () => {
+        io.to('main').emit('user stops writing', {
+          user: {
+            username: data.user.username,
+          }
+        })
+      }
 
       socket.on('user starts writing', (data) => {
         io.to('main').emit('user starts writing', {
@@ -67,20 +74,12 @@ io.on('connection', (socket) => {
         })
         clearTimeout(timeout)
         timeout = setTimeout(() => {
-          io.to('main').emit('user stops writing', {
-            user: {
-              username: data.user.username,
-            }
-          })
+          emitStop()
         }, 2000)
       })
       socket.on('user stops writing', (data) => {
         clearTimeout(timeout)
-        io.to('main').emit('user stops writing', {
-          user: {
-            username: data.user.username,
-          }
-        })
+        emitStop()
       })
     }
   })

@@ -1,7 +1,16 @@
+// init
+@import '_variables';
+
+// theme
+$blue: $color8;
+
+//
+@import '~roboto-fontface/css/roboto/roboto-fontface.css';
+
 // bootstrap
 @import '~bootstrap/scss/bootstrap-reboot.scss';
 @import '~bootstrap/scss/bootstrap.scss';
 @import '~bootstrap/scss/bootstrap-grid.scss';
+
 // app
-@import '_variables';
 @import '_base';

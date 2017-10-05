@@ -1,48 +1,32 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import { Container, Row, Col } from 'reactstrap'
-import socket from '../../../modules/socket'
+import { Row, Col } from 'reactstrap'
+import { meStartWriting, meStopWriting } from '../../../reducers/chat'
 import styles from './Chat.module.scss'
 
 export class ChatView extends React.Component {
   static propTypes = {
-    user: PropTypes.object.isRequired,
-    socket: PropTypes.object.isRequired,
     chat: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
   }
 
   constructor (props) {
     super(props)
-
-    this.startWritingTimeout = null
-
     this.handleKeyDown = this.handleKeyDown.bind(this)
   }
 
   handleKeyDown (e) {
-    const { user } = this.props
+    const { dispatch } = this.props
     const message = this.input.value.trim()
 
     if (e.keyCode === 13) {
       if (message) {
-        socket.emit('user stops writing', {
-          user: {
-            username: user.user.username
-          }
-        })
+        dispatch(meStopWriting())
         this.input.value = ''
       }
     } else {
-      clearTimeout(this.startWritingTimeout)
-      this.startWritingTimeout = setTimeout(() => {
-        socket.emit('user starts writing', {
-          user: {
-            username: user.user.username
-          }
-        })
-      }, 100)
+      dispatch(meStartWriting())
     }
   }
 

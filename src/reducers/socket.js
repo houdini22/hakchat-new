@@ -29,7 +29,7 @@ const loginInProgress = (value) => (dispatch) => {
 // ------------------------------------
 // Actions
 // ------------------------------------
-export const connect = () => async (dispatch) => {
+export const connect = () => async (dispatch, getState) => {
   let interval = null
 
   socket.off('connect')
@@ -67,7 +67,7 @@ export const connect = () => async (dispatch) => {
     dispatch(userStartsWriting(data))
   })
   socket.on('user stops writing', (data) => {
-    dispatch(userStopsWriting(data))
+    dispatch(userStopsWriting(data, getState().user.user.username === data.user.username))
   })
 
   socket.connect()

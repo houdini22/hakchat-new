@@ -1,11 +1,12 @@
 import socket from '../modules/socket'
-
 // ------------------------------------
 // Constants
 // ------------------------------------
 export const USER_JOINED = 'chat::user_joined'
 export const USER_STARTS_WRITING = 'chat::user_starts_writing'
 export const USER_STOPS_WRITING = 'chat::user_stops_writing'
+export const ME_START_WRITING = 'chat::me_start_writing'
+export const ME_STOP_WRITING = 'chat::me_stop_writing'
 
 // ------------------------------------
 // Actions
@@ -18,14 +19,42 @@ export const userStartsWriting = (data) => (dispatch) => {
   dispatch({ type: USER_STARTS_WRITING, payload: data.user.username })
 }
 
-export const userStopsWriting = (data) => (dispatch) => {
-  dispatch({ type: USER_STOPS_WRITING, payload: data.user.username })
+export const userStopsWriting = (data, isMe) => (dispatch) => {
+  dispatch({
+    type: USER_STOPS_WRITING,
+    payload: {
+      username: data.user.username,
+      isMe
+    }
+  })
+}
+
+export const meStartWriting = () => (dispatch, getState) => {
+  if (getState().chat.meIsWriting === true) return
+  dispatch({ type: ME_START_WRITING })
+  socket.emit('user starts writing', {
+    user: {
+      username: getState().user.user.username
+    }
+  })
+}
+
+export const meStopWriting = () => (dispatch, getState) => {
+  if (getState().chat.meIsWriting === false) return
+  dispatch({ type: ME_STOP_WRITING })
+  socket.emit('user stops writing', {
+    user: {
+      username: getState().user.user.username
+    }
+  })
 }
 
 export const actions = {
   userJoined,
   userStartsWriting,
   userStopsWriting,
+  meStopWriting,
+  meStartWriting
 }
 
 // ------------------------------------
@@ -56,7 +85,7 @@ const ACTION_HANDLERS = {
   },
   [USER_STOPS_WRITING]: (state, { payload }) => {
     const users = state.users.map((u) => {
-      if (u.username === payload) {
+      if (u.username === payload.username) {
         u.isWriting = false
       }
       return u
@@ -64,7 +93,20 @@ const ACTION_HANDLERS = {
 
     return {
       ...state,
-      users
+      users,
+      meIsWriting: payload.isMe === true ? false : state.meIsWriting
+    }
+  },
+  [ME_START_WRITING]: (state) => {
+    return {
+      ...state,
+      meIsWriting: true
+    }
+  },
+  [ME_STOP_WRITING]: (state) => {
+    return {
+      ...state,
+      meIsWriting: false
     }
   }
 }
@@ -73,7 +115,8 @@ const ACTION_HANDLERS = {
 // Reducer
 // ------------------------------------
 const initialState = {
-  users: []
+  users: [],
+  meIsWriting: false
 }
 
 export default function chatReducer (state = initialState, action) {
