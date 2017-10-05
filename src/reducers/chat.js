@@ -69,8 +69,8 @@ export const sendMessage = (message) => (dispatch, getState) => {
   })
 }
 
-export const messageReceived = (data) => (dispatch) => {
-  const important = hasMyNickInMessage(data.user.username, data.message)
+export const messageReceived = (data) => (dispatch, getState) => {
+  const important = hasMyNickInMessage(getState().user.user.username, data.message)
 
   if (important) {
     try {

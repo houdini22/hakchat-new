@@ -12,11 +12,11 @@ export class ChatView extends React.Component {
     return (
       <div style={{ ...style, margin: '0 15px' }}>
         <div className={`${styles['my-col']} ${styles['my-col-1']}`}>
-          <ChatUserListContainer />
+          <ChatUserListContainer/>
         </div>
         <div className={`${styles['my-col']} ${styles['my-col-2']}`}>
-          <ChatMessagesContainer />
-          <ChatNewMessageContainer />
+          <ChatMessagesContainer/>
+          <ChatNewMessageContainer/>
         </div>
       </div>
     )
