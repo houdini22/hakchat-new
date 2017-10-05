@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import { Row, Col } from 'reactstrap'
+import { Container, Row, Col } from 'reactstrap'
 import socket from '../../../modules/socket'
 import styles from './Chat.module.scss'
 
@@ -49,10 +49,12 @@ export class ChatView extends React.Component {
   render () {
     const { chat: { users } } = this.props
 
+    const style = { height: '100%' }
+
     return (
-      <div styleName='chat-container'>
-        <Row className={`${styles['row']}`}>
-          <Col md={3} sm={4} xs={12} className={`${styles['col']} ${styles['col-1']}`}>
+      <div style={{ ...style, margin: '0 15px' }}>
+        <Row style={style}>
+          <Col md={3} sm={4} xs={12} className={`${styles['my-col']} ${styles['my-col-1']}`}>
             <ul styleName='user-list'>
               {users.sort((a, b) => {
                 return a.username > b.username
@@ -69,7 +71,7 @@ export class ChatView extends React.Component {
               })}
             </ul>
           </Col>
-          <Col md={9} sm={8} xs={12} className={`${styles['col']} ${styles['col-2']}`}>
+          <Col md={9} sm={8} xs={12} className={`${styles['my-col']} ${styles['my-col-2']}`}>
             <div styleName='message-container'>
               <input
                 type='text'

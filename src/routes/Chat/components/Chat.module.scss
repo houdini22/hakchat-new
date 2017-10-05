@@ -1,44 +1,31 @@
-@import '~bootstrap/scss/mixins/breakpoints';
-@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/bootstrap';
 @import '../../../styles/variables';
 
-.chat-container {
-  position: absolute;
-  left: 15px;
-  top: 0;
-  right: 15px;
-  bottom: 0;
-}
-
-.row {
-  height: 100%;
-}
-
 @include media-breakpoint-up(sm) {
-  .col {
+  .my-col {
     height: 100%;
   }
 }
 
-.col-1 {
+.my-col-1 {
   background-color: $color2;
 }
 
 @include media-breakpoint-between(xs, sm) {
-  .col-1 {
+  .my-col-1 {
     height: 50px;
     border-bottom: 1px solid $color3;
   }
 }
 
 @include media-breakpoint-up(sm) {
-  .col-1 {
+  .my-col-1 {
     height: 100%;
     border-right: 1px solid $color3;
   }
 }
 
-.col-2 {
+.my-col-2 {
   background-color: $color1;
 }
 

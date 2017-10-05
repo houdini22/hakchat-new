@@ -11,3 +11,7 @@ body {
 .btn {
   cursor: pointer;
 }
+
+[data-reactroot] {
+  height: 100% !important;
+}
