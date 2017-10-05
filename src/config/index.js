@@ -1,6 +1,6 @@
 const config = {
   socket: {
-    address: 'http://localhost:3001/'
+    address: 'https://localhost:3001/'
   }
 }
 

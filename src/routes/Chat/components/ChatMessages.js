@@ -14,6 +14,10 @@ class ChatMessages extends React.Component {
     super(props)
   }
 
+  componentDidUpdate() {
+    this.messagesDiv.scrollTop = this.messagesDiv.scrollHeight
+  }
+
   renderMessages () {
     const { messages } = this.props
 
@@ -32,7 +36,12 @@ class ChatMessages extends React.Component {
 
   render () {
     return (
-      <div styleName='messages'>
+      <div
+        styleName='messages'
+        ref={(div) => {
+          this.messagesDiv = div
+        }}
+      >
         <ul>
           {this.renderMessages()}
         </ul>

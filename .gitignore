@@ -5,3 +5,6 @@ dist
 coverage
 .idea/
 .yarn-cache
+ServerApp/*.crt
+ServerApp/*.pem
+package-lock.json

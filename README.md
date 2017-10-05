@@ -1,10 +1,19 @@
-# Description
+## Get started
 
-In the Application I used:
- - React + Redux + Router
- - Material Design - a React add-on (mainly because I never make app with it)
- - localstoragedb - for storing data on the browser side
- 
+```
+<root dir>
+npm install
+
+cd ServerApp
+openssl genrsa 4096 > cert.pem
+openssl req -new -key cert.pem -out csr.pem
+openssl x509 -req -days 365 -in csr.pem -signkey cert.pem -out cert.crt
+cd ..
+
+npm run build
+node server.js
+```
+
 ...
 
 ## Requirements

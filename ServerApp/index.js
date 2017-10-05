@@ -1,5 +1,10 @@
-const http = require('http')
-const server = http.createServer()
+const fs = require('fs')
+const https = require('https')
+const options = {
+  key: fs.readFileSync('./cert.pem'),
+  cert: fs.readFileSync('./cert.crt')
+}
+const server = https.createServer(options)
 const socketIO = require('socket.io')
 const io = socketIO()
 const moment = require('moment')
