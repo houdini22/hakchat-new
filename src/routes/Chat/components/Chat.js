@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import moment from 'moment'
-import { meStartWriting, sendMessage } from '../../../reducers/chat'
+import ChatNewMessageContainer from '../containers/ChatNewMessageContainer'
 import styles from './Chat.module.scss'
 
 export class ChatView extends React.Component {
@@ -13,21 +13,6 @@ export class ChatView extends React.Component {
 
   constructor (props) {
     super(props)
-    this.handleKeyDown = this.handleKeyDown.bind(this)
-  }
-
-  handleKeyDown (e) {
-    const { dispatch } = this.props
-    const message = this.input.value.trim()
-
-    if (e.keyCode === 13) {
-      if (message) {
-        dispatch(sendMessage(message))
-        this.input.value = ''
-      }
-    } else {
-      dispatch(meStartWriting())
-    }
   }
 
   render () {
@@ -60,7 +45,7 @@ export class ChatView extends React.Component {
               {messages.map((data) => {
                 const { message, timestamp, user } = data
                 return (
-                  <li styleName='message'>
+                  <li styleName='message' key={timestamp}>
                     <p>
                       <span>{moment(timestamp).format('HH:mm')}</span>
                       <span styleName='nick'>{user.username}:</span>
@@ -73,16 +58,7 @@ export class ChatView extends React.Component {
               })}
             </ul>
           </div>
-          <div styleName='message-container'>
-            <input
-              type='text'
-              autoComplete='off'
-              ref={(input) => {
-                this.input = input
-              }}
-              onKeyDown={this.handleKeyDown}
-            />
-          </div>
+          <ChatNewMessageContainer />
         </div>
       </div>
     )

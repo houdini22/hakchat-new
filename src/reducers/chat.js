@@ -1,4 +1,10 @@
 import socket from '../modules/socket'
+// helpers
+
+const hasNickInMessage = (nick, message) => {
+  return (new RegExp(`(@${nick}(\\s|$))`)).test(message)
+}
+
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -68,7 +74,16 @@ export const sendMessage = (message) => (dispatch, getState) => {
 }
 
 export const messageReceived = (data) => (dispatch) => {
-  dispatch({ type: MESSAGE_RECEIVED, payload: data })
+  const important = hasNickInMessage(data.user.username, data.message)
+
+  if (important) {
+    try {
+      const audio = new Audio('/sounds/notification.mp3')
+      audio.play()
+    } catch (ex) {}
+  }
+
+  dispatch({ type: MESSAGE_RECEIVED, payload: { ...data, important } })
 }
 
 export const actions = {
