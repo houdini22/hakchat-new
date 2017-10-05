@@ -1,33 +1,69 @@
 @import '~bootstrap/scss/bootstrap';
 @import '../../../styles/variables';
 
-@include media-breakpoint-up(sm) {
-  .my-col {
-    height: 100%;
-  }
+.my-col {
+  position: absolute;
+  top: 0;
+  bottom: 0;
 }
 
 .my-col-1 {
-  background-color: $color1;
-}
-
-@include media-breakpoint-between(xs, sm) {
-  .my-col-1 {
-    height: 50px;
-  }
-}
-
-@include media-breakpoint-up(sm) {
-  .my-col-1 {
-    height: 100%;
-    width: 250px;
-    max-width: 250px;
-  }
+  background-color: $color2;
+  left: 0;
+  right: calc(100% - 250px);
 }
 
 .my-col-2 {
   background-color: $color6;
-  width: calc(100% - 250px);
+  left: 250px;
+  right: 0;
+}
+
+.messages {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 70px;
+  overflow-y: scroll;
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.message {
+  margin: 0;
+  padding: 0;
+
+  &.odd {
+    background: $color9;
+  }
+  p {
+    margin: 0;
+    padding: 2px 5px;
+    font-size: 13px;
+    > * {
+      display: inline-block;
+      margin-right: 6px;
+    }
+  }
+  &.has-nick {
+    background-color: lightskyblue;
+  }
+}
+
+.nick {
+  font-weight: bold;
+}
+
+.message-content {
+  a {
+    color: black;
+    text-decoration: underline;
+  }
 }
 
 .message-container {
@@ -37,7 +73,7 @@
   bottom: 0;
   height: 70px;
   padding: 15px;
-  background-color: $color1;
+  background-color: $color2;
 
   input[type=text] {
     border: 0 none;
@@ -59,7 +95,7 @@
 
   li {
     height: 25px;
-    border-bottom: 1px solid $color1;
+    border-bottom: 1px solid $color5;
     width: 100%;
   }
 }

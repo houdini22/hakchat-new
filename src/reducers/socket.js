@@ -1,6 +1,6 @@
 import socket from '../modules/socket'
 import { loggedIn, loggedOff } from './user'
-import { userJoined, userStopsWriting, userStartsWriting, usersGet } from './chat'
+import { userJoined, userStopsWriting, userStartsWriting, usersGet, messageReceived } from './chat'
 
 // ------------------------------------
 // Constants
@@ -55,7 +55,6 @@ export const connect = () => async (dispatch, getState) => {
   socket.on('logged in', (data) => {
     dispatch(loginInProgress(false))
     dispatch(loggedIn(data))
-    socket.emit('get users')
   })
   socket.on('login failed', () => {
     dispatch(loginInProgress(false))
@@ -63,6 +62,7 @@ export const connect = () => async (dispatch, getState) => {
   })
   socket.on('user joined', (data) => {
     dispatch(userJoined(data, getState().user.user.username === data.user.username))
+    socket.emit('get users')
   })
   socket.on('user starts writing', (data) => {
     dispatch(userStartsWriting(data))
@@ -72,6 +72,9 @@ export const connect = () => async (dispatch, getState) => {
   })
   socket.on('users get', (data) => {
     dispatch(usersGet(data))
+  })
+  socket.on('message sent', (data) => {
+    dispatch(messageReceived(data))
   })
 
   socket.connect()

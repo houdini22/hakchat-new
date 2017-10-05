@@ -58,7 +58,7 @@ io.on('connection', (socket) => {
     })
 
     let timeout = null
-    const emitStop = () => {
+    const emitStop = (data) => {
       io.to('main').emit('user stops writing', {
         user: {
           username: data.user.username,
@@ -74,13 +74,13 @@ io.on('connection', (socket) => {
       })
       clearTimeout(timeout)
       timeout = setTimeout(() => {
-        emitStop()
+        emitStop(data)
       }, 2000)
     })
 
     socket.on('user stops writing', (data) => {
       clearTimeout(timeout)
-      emitStop()
+      emitStop(data)
     })
 
     socket.on('get users', () => {
@@ -94,6 +94,17 @@ io.on('connection', (socket) => {
         }
       })
       socket.emit('users get', users)
+    })
+  })
+
+  socket.on('send message', (data) => {
+    let { message, user } = data
+    io.to('main').emit('message sent', {
+      message,
+      timestamp: moment(),
+      user: {
+        username: user.username
+      }
     })
   })
 

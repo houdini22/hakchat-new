@@ -8,6 +8,7 @@ export const USER_STOPS_WRITING = 'chat::user_stops_writing'
 export const ME_START_WRITING = 'chat::me_start_writing'
 export const ME_STOP_WRITING = 'chat::me_stop_writing'
 export const USERS_GET = 'chat::users_get'
+export const MESSAGE_RECEIVED = 'chat::message_received'
 
 // ------------------------------------
 // Actions
@@ -56,6 +57,20 @@ export const usersGet = (data) => (dispatch) => {
   dispatch({ type: USERS_GET, payload: data })
 }
 
+export const sendMessage = (message) => (dispatch, getState) => {
+  dispatch(meStopWriting())
+  socket.emit('send message', {
+    user: {
+      username: getState().user.user.username
+    },
+    message
+  })
+}
+
+export const messageReceived = (data) => (dispatch) => {
+  dispatch({ type: MESSAGE_RECEIVED, payload: data })
+}
+
 export const actions = {
   userJoined,
   userStartsWriting,
@@ -63,6 +78,7 @@ export const actions = {
   meStopWriting,
   meStartWriting,
   usersGet,
+  messageReceived
 }
 
 // ------------------------------------
@@ -122,6 +138,17 @@ const ACTION_HANDLERS = {
       ...state,
       users: [...payload]
     }
+  },
+  [MESSAGE_RECEIVED]: (state, { payload }) => {
+    const { message, timestamp, user } = payload
+    return {
+      ...state,
+      messages: [...state.messages, {
+        message,
+        timestamp,
+        user
+      }]
+    }
   }
 }
 
@@ -130,7 +157,8 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 const initialState = {
   users: [],
-  meIsWriting: false
+  meIsWriting: false,
+  messages: []
 }
 
 export default function chatReducer (state = initialState, action) {

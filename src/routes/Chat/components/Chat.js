@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
-import { Row, Col } from 'reactstrap'
-import { meStartWriting, meStopWriting } from '../../../reducers/chat'
+import moment from 'moment'
+import { meStartWriting, sendMessage } from '../../../reducers/chat'
 import styles from './Chat.module.scss'
 
 export class ChatView extends React.Component {
@@ -22,7 +22,7 @@ export class ChatView extends React.Component {
 
     if (e.keyCode === 13) {
       if (message) {
-        dispatch(meStopWriting())
+        dispatch(sendMessage(message))
         this.input.value = ''
       }
     } else {
@@ -31,43 +31,59 @@ export class ChatView extends React.Component {
   }
 
   render () {
-    const { chat: { users } } = this.props
+    const { chat: { users, messages } } = this.props
 
     const style = { height: '100%' }
 
     return (
       <div style={{ ...style, margin: '0 15px' }}>
-        <Row style={style}>
-          <Col md={3} sm={4} xs={12} className={`${styles['my-col']} ${styles['my-col-1']}`}>
-            <ul styleName='user-list'>
-              {users.sort((a, b) => {
-                return a.username > b.username
-              }).map((user) => {
-                const { username, isWriting } = user
+        <div className={`${styles['my-col']} ${styles['my-col-1']}`}>
+          <ul styleName='user-list'>
+            {users.sort((a, b) => {
+              return a.username > b.username
+            }).map((user) => {
+              const { username, isWriting } = user
+              return (
+                <li key={username}>
+                  {username}
+                  {isWriting && (
+                    <span> is writing</span>
+                  )}
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+        <div className={`${styles['my-col']} ${styles['my-col-2']}`}>
+          <div styleName='messages'>
+            <ul>
+              {messages.map((data) => {
+                const { message, timestamp, user } = data
                 return (
-                  <li key={username}>
-                    {username}
-                    {isWriting && (
-                      <span> is writing</span>
-                    )}
+                  <li styleName='message'>
+                    <p>
+                      <span>{moment(timestamp).format('HH:mm')}</span>
+                      <span styleName='nick'>{user.username}:</span>
+                      <span styleName='message-content'>
+                        {message}
+                      </span>
+                    </p>
                   </li>
                 )
               })}
             </ul>
-          </Col>
-          <Col md={9} sm={8} xs={12} className={`${styles['my-col']} ${styles['my-col-2']}`}>
-            <div styleName='message-container'>
-              <input
-                type='text'
-                autoComplete='off'
-                ref={(input) => {
-                  this.input = input
-                }}
-                onKeyDown={this.handleKeyDown}
-              />
-            </div>
-          </Col>
-        </Row>
+          </div>
+          <div styleName='message-container'>
+            <input
+              type='text'
+              autoComplete='off'
+              ref={(input) => {
+                this.input = input
+              }}
+              onKeyDown={this.handleKeyDown}
+            />
+          </div>
+        </div>
       </div>
     )
   }
