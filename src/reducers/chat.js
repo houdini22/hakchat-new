@@ -7,12 +7,15 @@ export const USER_STARTS_WRITING = 'chat::user_starts_writing'
 export const USER_STOPS_WRITING = 'chat::user_stops_writing'
 export const ME_START_WRITING = 'chat::me_start_writing'
 export const ME_STOP_WRITING = 'chat::me_stop_writing'
+export const USERS_GET = 'chat::users_get'
 
 // ------------------------------------
 // Actions
 // ------------------------------------
-export const userJoined = (data) => (dispatch) => {
-  dispatch({ type: USER_JOINED, payload: data })
+export const userJoined = (data, isMe) => (dispatch) => {
+  if (!isMe) {
+    dispatch({ type: USER_JOINED, payload: data })
+  }
 }
 
 export const userStartsWriting = (data) => (dispatch) => {
@@ -49,12 +52,17 @@ export const meStopWriting = () => (dispatch, getState) => {
   })
 }
 
+export const usersGet = (data) => (dispatch) => {
+  dispatch({ type: USERS_GET, payload: data })
+}
+
 export const actions = {
   userJoined,
   userStartsWriting,
   userStopsWriting,
   meStopWriting,
-  meStartWriting
+  meStartWriting,
+  usersGet,
 }
 
 // ------------------------------------
@@ -107,6 +115,12 @@ const ACTION_HANDLERS = {
     return {
       ...state,
       meIsWriting: false
+    }
+  },
+  [USERS_GET]: (state, { payload }) => {
+    return {
+      ...state,
+      users: [...payload]
     }
   }
 }

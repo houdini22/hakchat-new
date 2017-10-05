@@ -8,7 +8,7 @@
 }
 
 .my-col-1 {
-  background-color: $color8;
+  background-color: $color1;
 }
 
 @include media-breakpoint-between(xs, sm) {
@@ -20,11 +20,14 @@
 @include media-breakpoint-up(sm) {
   .my-col-1 {
     height: 100%;
+    width: 250px;
+    max-width: 250px;
   }
 }
 
 .my-col-2 {
   background-color: $color6;
+  width: calc(100% - 250px);
 }
 
 .message-container {
@@ -34,7 +37,7 @@
   bottom: 0;
   height: 70px;
   padding: 15px;
-  background-color: $color8;
+  background-color: $color1;
 
   input[type=text] {
     border: 0 none;

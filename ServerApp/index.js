@@ -45,43 +45,56 @@ io.on('connection', (socket) => {
 
     if (!found) {
       socket.emit('login failed')
+      return
     }
 
-    if (found) {
-      socket.join('main', () => {
-        io.to('main').emit('user joined', {
-          user: {
-            username
-          },
-          time: new Date()
-        })
+    socket.join('main', () => {
+      io.to('main').emit('user joined', {
+        user: {
+          username
+        },
+        time: new Date()
       })
+    })
 
-      let timeout = null
-      const emitStop = () => {
-        io.to('main').emit('user stops writing', {
-          user: {
-            username: data.user.username,
-          }
-        })
-      }
-
-      socket.on('user starts writing', (data) => {
-        io.to('main').emit('user starts writing', {
-          user: {
-            username: data.user.username,
-          }
-        })
-        clearTimeout(timeout)
-        timeout = setTimeout(() => {
-          emitStop()
-        }, 2000)
+    let timeout = null
+    const emitStop = () => {
+      io.to('main').emit('user stops writing', {
+        user: {
+          username: data.user.username,
+        }
       })
-      socket.on('user stops writing', (data) => {
-        clearTimeout(timeout)
+    }
+
+    socket.on('user starts writing', (data) => {
+      io.to('main').emit('user starts writing', {
+        user: {
+          username: data.user.username,
+        }
+      })
+      clearTimeout(timeout)
+      timeout = setTimeout(() => {
         emitStop()
+      }, 2000)
+    })
+
+    socket.on('user stops writing', (data) => {
+      clearTimeout(timeout)
+      emitStop()
+    })
+
+    socket.on('get users', () => {
+      const users = []
+      Object.keys(sessions).forEach((ID) => {
+        const sessionData = sessions[ID]
+        if (sessionData.user) {
+          users.push({
+            username: sessionData.user.username
+          })
+        }
       })
-    }
+      socket.emit('users get', users)
+    })
   })
 
   // save session
