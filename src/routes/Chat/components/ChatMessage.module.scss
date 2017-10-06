@@ -21,6 +21,10 @@
   &.has-my-nick {
     background-color: $color3;
   }
+
+  &.is-system-message {
+    background-color: lightskyblue;
+  }
 }
 
 .nick {

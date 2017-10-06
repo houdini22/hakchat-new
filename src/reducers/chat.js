@@ -12,6 +12,9 @@ export const ME_STOP_WRITING = 'chat::me_stop_writing'
 export const USERS_GET = 'chat::users_get'
 export const MESSAGE_RECEIVED = 'chat::message_received'
 export const RESET = 'chat::reset'
+export const ADD_SYSTEM_MESSAGE = 'chat::add_system_message'
+
+export const TYPE_MESSAGE_SYSTEM = '___SYSTEM___'
 
 // ------------------------------------
 // Actions
@@ -20,6 +23,14 @@ export const userJoined = (data, isMe) => (dispatch) => {
   if (!isMe) {
     dispatch({ type: USER_JOINED, payload: data })
   }
+
+  dispatch({
+    type: ADD_SYSTEM_MESSAGE,
+    payload: {
+      message: USER_JOINED,
+      data,
+    }
+  })
 }
 
 export const userStartsWriting = (data) => (dispatch) => {
@@ -172,6 +183,22 @@ const ACTION_HANDLERS = {
       ...state,
       messages: [],
       users: []
+    }
+  },
+  [ADD_SYSTEM_MESSAGE]: (state, { payload }) => {
+    const { message, data } = payload
+
+    return {
+      ...state,
+      messages: [...state.messages, {
+        message,
+        type: TYPE_MESSAGE_SYSTEM,
+        user: {
+          username: '[SYSTEM]'
+        },
+        data: data.user,
+        timestamp: data.timestamp
+      }]
     }
   }
 }

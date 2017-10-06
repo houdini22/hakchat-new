@@ -5,23 +5,41 @@ import moment from 'moment'
 import classNames from 'classnames'
 import styles from './ChatMessage.module.scss'
 import { hasMyNickInMessage } from '../../../helpers/chat'
+import { USER_JOINED } from '../../../reducers/chat'
 
-class ChatMessages extends React.Component {
+class ChatMessage extends React.Component {
   static propTypes = {
     message: PropTypes.string.isRequired,
     timestamp: PropTypes.string.isRequired,
     user: PropTypes.object.isRequired,
     myNick: PropTypes.string.isRequired,
+    type: PropTypes.string,
+    data: PropTypes.object
+  }
+
+  renderMessageContent () {
+    const { message, type, data } = this.props
+
+    if (!type) return message
+
+    switch (message) {
+      case USER_JOINED:
+        return `User ${data.username} has joined.`
+
+      default:
+        return 'ERROR'
+    }
   }
 
   render () {
-    const { message, timestamp, user, myNick } = this.props
+    const { message, timestamp, user, myNick, type } = this.props
 
     return (
       <li
         styleName='message'
         className={classNames({
-          [styles['has-my-nick']]: hasMyNickInMessage(myNick, message)
+          [styles['has-my-nick']]: hasMyNickInMessage(myNick, message),
+          [styles['is-system-message']]: Boolean(type)
         })}
         key={moment(timestamp).format('HH:mm:ss.SSSS')}
       >
@@ -29,7 +47,7 @@ class ChatMessages extends React.Component {
           <span>{moment(timestamp).format('HH:mm')}</span>
           <span styleName='nick'>{user.username}:</span>
           <span styleName='message-content'>
-            {message}
+            {this.renderMessageContent()}
           </span>
         </p>
       </li>
@@ -37,4 +55,4 @@ class ChatMessages extends React.Component {
   }
 }
 
-export default CSSModule(ChatMessages, styles)
+export default CSSModule(ChatMessage, styles)

@@ -33,10 +33,11 @@ const getLoggedInUsers = () => {
   return promise
 }
 
-const createSession = (socketID, data) => {
+const createSession = (data) => {
+  const { id, client_ip } = data
   database.insertInto('sessions', {
-    id: socketID,
-    client_ip: data.ip
+    id,
+    client_ip,
   })
 }
 

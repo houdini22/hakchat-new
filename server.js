@@ -12,6 +12,8 @@ const moment = require('moment')
 const sessionDb = require('./ServerApp/modules/database/sessions')
 const usersDb = require('./ServerApp/modules/database/users')
 
+const config = require('./ServerApp/config')
+
 io.on('connection', (socket) => {
   // DISCONNECT
   socket.on('disconnect', () => {
@@ -27,15 +29,6 @@ io.on('connection', (socket) => {
         socket.emit('logged in', {
           username: loginData.username,
           token: socket.id
-        })
-
-        socket.join('main', () => {
-          io.to('main').emit('user joined', {
-            user: {
-              username: loginData.username
-            },
-            time: new Date()
-          })
         })
 
         let timeout = null
@@ -80,6 +73,15 @@ io.on('connection', (socket) => {
             }
           })
         })
+
+        socket.join('main', () => {
+          io.to('main').emit('user joined', {
+            user: {
+              username: loginData.username
+            },
+            timestamp: new Date()
+          })
+        })
       })
       .catch(() => {                                                  // wrong credentials
         socket.emit('login failed')
@@ -87,13 +89,12 @@ io.on('connection', (socket) => {
   })
 
   // save session
-  sessionDb.createSession(socket.id, {
+  sessionDb.createSession({
     id: socket.id,
-    ip: socket.request.connection.remoteAddress,
-    user: null
+    client_ip: socket.request.connection.remoteAddress
   })
 })
 
-server.listen(3001)
+server.listen(config.server.port)
 io.attach(server)
-console.log('Up and running...')
+console.log(`Up and running on port ${config.server.port}`)

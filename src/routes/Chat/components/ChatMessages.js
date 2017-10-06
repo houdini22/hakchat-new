@@ -21,13 +21,15 @@ class ChatMessages extends React.Component {
   renderMessages () {
     const { messages } = this.props
 
-    return messages.map((data) => {
-      const { message, timestamp, user } = data
+    return messages.map((messageData) => {
+      const { message, timestamp, user, type, data } = messageData
       return (
         <ChatMessageContainer
           message={message}
           timestamp={timestamp}
           user={user}
+          type={type}
+          data={data}
           key={moment(timestamp).format('HH:mm:ss.SSSS')}
         />
       )

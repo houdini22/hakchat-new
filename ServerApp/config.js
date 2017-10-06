@@ -4,3 +4,7 @@ exports.database = {
   password: 'YzvhdIPT2s7FljcT',
   database: 'chat'
 }
+
+exports.server = {
+  port: 3001
+}
