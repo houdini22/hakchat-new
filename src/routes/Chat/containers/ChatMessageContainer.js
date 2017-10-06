@@ -7,7 +7,7 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = (state) => {
   return {
-    myNick: state.user.user.username
+    myNick: state.auth.user.username
   }
 }
 

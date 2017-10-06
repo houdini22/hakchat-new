@@ -18,9 +18,13 @@ class ChatMessages extends React.Component {
     const { message, timestamp, user, myNick } = this.props
 
     return (
-      <li styleName='message' className={classNames({
-        [styles['has-my-nick']]: hasMyNickInMessage(myNick, message)
-      })}>
+      <li
+        styleName='message'
+        className={classNames({
+          [styles['has-my-nick']]: hasMyNickInMessage(myNick, message)
+        })}
+        key={moment(timestamp).format('HH:mm:ss.SSSS')}
+      >
         <p>
           <span>{moment(timestamp).format('HH:mm')}</span>
           <span styleName='nick'>{user.username}:</span>

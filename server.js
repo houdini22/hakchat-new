@@ -1,17 +1,15 @@
 const fs = require('fs')
 const https = require('https')
 const options = {
-  key: fs.readFileSync('./cert.pem'),
-  cert: fs.readFileSync('./cert.crt')
+  key: fs.readFileSync('./ServerApp/cert.pem'),
+  cert: fs.readFileSync('./ServerApp/cert.crt')
 }
 const server = https.createServer(options)
 const socketIO = require('socket.io')
 const io = socketIO()
 const moment = require('moment')
 
-const data = require('./data')
-
-server.listen(3001)
+const data = require('./ServerApp/data')
 
 let sessions = {}
 
@@ -121,4 +119,6 @@ io.on('connection', (socket) => {
   }
 })
 
+server.listen(3001)
 io.attach(server)
+console.log('Up and running...')

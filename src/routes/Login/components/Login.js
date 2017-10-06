@@ -10,7 +10,7 @@ export class LoginView extends React.Component {
   static propTypes = {
     connect: PropTypes.func.isRequired,
     socket: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
+    auth: PropTypes.object.isRequired,
     router: PropTypes.object.isRequired,
     loginFailed: PropTypes.bool
   }
@@ -21,7 +21,7 @@ export class LoginView extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    const { user: { isLoggedIn } } = nextProps
+    const { auth: { isLoggedIn } } = nextProps
     if (isLoggedIn) {
       this.props.router.push('/chat')
     }

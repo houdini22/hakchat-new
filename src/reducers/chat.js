@@ -11,6 +11,7 @@ export const ME_START_WRITING = 'chat::me_start_writing'
 export const ME_STOP_WRITING = 'chat::me_stop_writing'
 export const USERS_GET = 'chat::users_get'
 export const MESSAGE_RECEIVED = 'chat::message_received'
+export const RESET = 'chat::reset'
 
 // ------------------------------------
 // Actions
@@ -40,7 +41,7 @@ export const meStartWriting = () => (dispatch, getState) => {
   dispatch({ type: ME_START_WRITING })
   socket.emit('user starts writing', {
     user: {
-      username: getState().user.user.username
+      username: getState().auth.user.username
     }
   })
 }
@@ -50,7 +51,7 @@ export const meStopWriting = () => (dispatch, getState) => {
   dispatch({ type: ME_STOP_WRITING })
   socket.emit('user stops writing', {
     user: {
-      username: getState().user.user.username
+      username: getState().auth.user.username
     }
   })
 }
@@ -63,14 +64,14 @@ export const sendMessage = (message) => (dispatch, getState) => {
   dispatch(meStopWriting())
   socket.emit('send message', {
     user: {
-      username: getState().user.user.username
+      username: getState().auth.user.username
     },
     message
   })
 }
 
 export const messageReceived = (data) => (dispatch, getState) => {
-  const important = hasMyNickInMessage(getState().user.user.username, data.message)
+  const important = hasMyNickInMessage(getState().auth.user.username, data.message)
 
   if (important) {
     try {
@@ -82,6 +83,10 @@ export const messageReceived = (data) => (dispatch, getState) => {
   dispatch({ type: MESSAGE_RECEIVED, payload: { ...data, important } })
 }
 
+export const reset = () => (dispatch) => {
+  dispatch({ type: RESET })
+}
+
 export const actions = {
   userJoined,
   userStartsWriting,
@@ -89,7 +94,8 @@ export const actions = {
   meStopWriting,
   meStartWriting,
   usersGet,
-  messageReceived
+  messageReceived,
+  reset,
 }
 
 // ------------------------------------
@@ -159,6 +165,13 @@ const ACTION_HANDLERS = {
         timestamp,
         user
       }]
+    }
+  },
+  [RESET]: (state) => {
+    return {
+      ...state,
+      messages: [],
+      users: []
     }
   }
 }

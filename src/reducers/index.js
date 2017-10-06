@@ -1,9 +1,9 @@
 import chat from './chat'
 import socket from './socket'
-import user from './user'
+import auth from './auth'
 
 export {
   chat,
   socket,
-  user
+  auth,
 }

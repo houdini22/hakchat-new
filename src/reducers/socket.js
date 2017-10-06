@@ -1,5 +1,5 @@
 import socket from '../modules/socket'
-import { loggedIn, loggedOff } from './user'
+import { loggedIn, loggedOff } from './auth'
 import { userJoined, userStopsWriting, userStartsWriting, usersGet, messageReceived } from './chat'
 
 // ------------------------------------
@@ -61,14 +61,14 @@ export const connect = () => async (dispatch, getState) => {
     dispatch(loginFailed(true))
   })
   socket.on('user joined', (data) => {
-    dispatch(userJoined(data, getState().user.user.username === data.user.username))
+    dispatch(userJoined(data, getState().auth.user.username === data.user.username))
     socket.emit('get users')
   })
   socket.on('user starts writing', (data) => {
     dispatch(userStartsWriting(data))
   })
   socket.on('user stops writing', (data) => {
-    dispatch(userStopsWriting(data, getState().user.user.username === data.user.username))
+    dispatch(userStopsWriting(data, getState().auth.user.username === data.user.username))
   })
   socket.on('users get', (data) => {
     dispatch(usersGet(data))

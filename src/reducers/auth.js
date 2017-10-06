@@ -1,3 +1,5 @@
+import { reset } from './chat'
+
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -13,6 +15,7 @@ export const loggedIn = (data) => (dispatch) => {
 
 export const loggedOff = () => (dispatch) => {
   dispatch({ type: LOGGED_OFF })
+  dispatch(reset())
 }
 
 export const actions = {

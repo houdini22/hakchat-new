@@ -7,7 +7,7 @@ const mapDispatchToProps = {
 }
 
 const mapStateToProps = (state) => ({
-  user: { ...(state.user) },
+  auth: { ...(state.auth) },
   socket: { ...(state.socket) }
 })
 

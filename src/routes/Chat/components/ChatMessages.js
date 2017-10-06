@@ -14,7 +14,7 @@ class ChatMessages extends React.Component {
     super(props)
   }
 
-  componentDidUpdate() {
+  componentDidUpdate () {
     this.messagesDiv.scrollTop = this.messagesDiv.scrollHeight
   }
 
@@ -25,10 +25,10 @@ class ChatMessages extends React.Component {
       const { message, timestamp, user } = data
       return (
         <ChatMessageContainer
-          key={moment(timestamp).format('HH:mm:ss.SS')}
           message={message}
           timestamp={timestamp}
           user={user}
+          key={moment(timestamp).format('HH:mm:ss.SSSS')}
         />
       )
     })
