@@ -25,6 +25,7 @@
     "https": "^1.0.0",
     "less-loader": "^4.0.5",
     "lodash": "^4.17.4",
+    "mariasql": "^0.2.6",
     "moment": "^2.18.1",
     "object-assign": "^4.1.1",
     "promise": "^7.1.1",

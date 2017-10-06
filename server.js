@@ -9,114 +9,89 @@ const socketIO = require('socket.io')
 const io = socketIO()
 const moment = require('moment')
 
-const data = require('./ServerApp/data')
-
-let sessions = {}
+const sessionDb = require('./ServerApp/modules/database/sessions')
+const usersDb = require('./ServerApp/modules/database/users')
 
 io.on('connection', (socket) => {
-  // on DISCONNECT
+  // DISCONNECT
   socket.on('disconnect', () => {
     // remove session
-    sessions = Object.keys(sessions)
-      .filter((socketId) => {
-        return socketId !== socket.id
-      })
-      .reduce((obj, key) => {
-        obj[key] = sessions[key]
-        return obj
-      }, {})
+    sessionDb.removeSession(socket.id)
   })
 
-  // on LOGIN
-  socket.on('login', (payload) => {
-    const { username, password } = payload
-    let found = false
-
-    data.users.forEach((user) => {
-      if (user.username === username && password === user.password) {
-        sessions[socket.id].user = {
-          username
-        }
+  // LOGIN
+  socket.on('login', (loginData) => {
+    usersDb.loginAttempt(loginData.username, loginData.password)
+      .then((user) => {                                               // ok - logged in
+        sessionDb.userLoggedIn(socket.id, user.id)
         socket.emit('logged in', {
-          username,
+          username: loginData.username,
           token: socket.id
         })
-        found = true
-        return false
-      }
-    })
 
-    if (!found) {
-      socket.emit('login failed')
-      return
-    }
+        socket.join('main', () => {
+          io.to('main').emit('user joined', {
+            user: {
+              username: loginData.username
+            },
+            time: new Date()
+          })
+        })
 
-    socket.join('main', () => {
-      io.to('main').emit('user joined', {
-        user: {
-          username
-        },
-        time: new Date()
-      })
-    })
-
-    let timeout = null
-    const emitStop = (data) => {
-      io.to('main').emit('user stops writing', {
-        user: {
-          username: data.user.username,
-        }
-      })
-    }
-
-    socket.on('user starts writing', (data) => {
-      io.to('main').emit('user starts writing', {
-        user: {
-          username: data.user.username,
-        }
-      })
-      clearTimeout(timeout)
-      timeout = setTimeout(() => {
-        emitStop(data)
-      }, 2000)
-    })
-
-    socket.on('user stops writing', (data) => {
-      clearTimeout(timeout)
-      emitStop(data)
-    })
-
-    socket.on('get users', () => {
-      const users = []
-      Object.keys(sessions).forEach((ID) => {
-        const sessionData = sessions[ID]
-        if (sessionData.user) {
-          users.push({
-            username: sessionData.user.username
+        let timeout = null
+        const emitStop = (data) => {
+          io.to('main').emit('user stops writing', {
+            user: {
+              username: data.user.username,
+            }
           })
         }
-      })
-      socket.emit('users get', users)
-    })
-  })
 
-  socket.on('send message', (data) => {
-    let { message, user } = data
-    io.to('main').emit('message sent', {
-      message,
-      timestamp: moment(),
-      user: {
-        username: user.username
-      }
-    })
+        socket.on('user starts writing', (data) => {
+          io.to('main').emit('user starts writing', {
+            user: {
+              username: data.user.username,
+            }
+          })
+          clearTimeout(timeout)
+          timeout = setTimeout(() => {
+            emitStop(data)
+          }, 2000)
+        })
+
+        socket.on('user stops writing', (data) => {
+          clearTimeout(timeout)
+          emitStop(data)
+        })
+
+        socket.on('get users', () => {
+          sessionDb.getLoggedInUsers().then((users) => {
+            socket.emit('users get', users)
+          })
+        })
+
+        socket.on('send message', (data) => {
+          let { message, user } = data
+          io.to('main').emit('message sent', {
+            message,
+            timestamp: moment(),
+            user: {
+              username: user.username
+            }
+          })
+        })
+      })
+      .catch(() => {                                                  // wrong credentials
+        socket.emit('login failed')
+      })
   })
 
   // save session
-  sessions[socket.id] = {
+  sessionDb.createSession(socket.id, {
     id: socket.id,
     ip: socket.request.connection.remoteAddress,
     user: null
-  }
+  })
 })
 
 server.listen(3001)
