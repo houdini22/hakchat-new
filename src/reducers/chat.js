@@ -5,6 +5,7 @@ import { hasMyNickInMessage } from '../helpers/chat'
 // Constants
 // ------------------------------------
 export const USER_JOINED = 'chat::user_joined'
+export const USER_LEFT = 'chat::user_left'
 export const USER_STARTS_WRITING = 'chat::user_starts_writing'
 export const USER_STOPS_WRITING = 'chat::user_stops_writing'
 export const ME_START_WRITING = 'chat::me_start_writing'
@@ -31,6 +32,19 @@ export const userJoined = (data, isMe) => (dispatch) => {
       data,
     }
   })
+}
+
+export const userLeft = (data, isMe) => (dispatch) => {
+  if (!isMe) {
+    dispatch({
+      type: ADD_SYSTEM_MESSAGE,
+      payload: {
+        message: USER_LEFT,
+        data
+      }
+    })
+    dispatch({ type: USER_LEFT, payload: data })
+  }
 }
 
 export const userStartsWriting = (data) => (dispatch) => {
@@ -100,6 +114,7 @@ export const reset = () => (dispatch) => {
 
 export const actions = {
   userJoined,
+  userLeft,
   userStartsWriting,
   userStopsWriting,
   meStopWriting,
@@ -120,6 +135,14 @@ const ACTION_HANDLERS = {
     return {
       ...state,
       users: [...(state.users), user]
+    }
+  },
+  [USER_LEFT]: (state, { payload }) => {
+    return {
+      ...state,
+      users: [...state.users.filter((user) => {
+        return user.username !== payload.user.username
+      })]
     }
   },
   [USER_STARTS_WRITING]: (state, { payload }) => {

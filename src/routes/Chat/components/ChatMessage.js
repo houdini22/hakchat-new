@@ -5,7 +5,7 @@ import moment from 'moment'
 import classNames from 'classnames'
 import styles from './ChatMessage.module.scss'
 import { hasMyNickInMessage } from '../../../helpers/chat'
-import { USER_JOINED } from '../../../reducers/chat'
+import { USER_JOINED, USER_LEFT } from '../../../reducers/chat'
 
 class ChatMessage extends React.Component {
   static propTypes = {
@@ -25,6 +25,9 @@ class ChatMessage extends React.Component {
     switch (message) {
       case USER_JOINED:
         return `User ${data.username} has joined.`
+
+      case USER_LEFT:
+        return `User ${data.username} has left.`
 
       default:
         return 'ERROR'

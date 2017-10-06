@@ -1,6 +1,6 @@
 import socket from '../modules/socket'
 import { loggedIn, loggedOff } from './auth'
-import { userJoined, userStopsWriting, userStartsWriting, usersGet, messageReceived } from './chat'
+import { userJoined, userLeft, userStopsWriting, userStartsWriting, usersGet, messageReceived } from './chat'
 
 // ------------------------------------
 // Constants
@@ -33,11 +33,15 @@ export const connect = () => async (dispatch, getState) => {
   let interval = null
 
   socket.off('connect')
-  socket.off('disconnected')
+  socket.off('disconnect')
   socket.off('logged in')
+  socket.off('login failed')
   socket.off('user joined')
+  socket.off('user left')
   socket.off('user starts writing')
   socket.off('user stops writing')
+  socket.off('users get')
+  socket.off('message send')
 
   socket.on('connect', () => {
     clearInterval(interval)
@@ -63,6 +67,9 @@ export const connect = () => async (dispatch, getState) => {
   socket.on('user joined', (data) => {
     dispatch(userJoined(data, getState().auth.user.username === data.user.username))
     socket.emit('get users')
+  })
+  socket.on('user left', (data) => {
+    dispatch(userLeft(data, getState().auth.user.username === data.user.username))
   })
   socket.on('user starts writing', (data) => {
     dispatch(userStartsWriting(data))

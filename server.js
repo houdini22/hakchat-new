@@ -18,6 +18,15 @@ io.on('connection', (socket) => {
   // DISCONNECT
   socket.on('disconnect', () => {
     // remove session
+    sessionDb.getSessionById(socket.id).then((user) => {
+      io.to('main').emit('user left', {
+        user: {
+          username: user.username
+        },
+        timestamp: new Date()
+      })
+    })
+
     sessionDb.removeSession(socket.id)
   })
 

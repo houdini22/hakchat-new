@@ -41,7 +41,25 @@ const createSession = (data) => {
   })
 }
 
+const getSessionById = (sessionId) => {
+  const promise = new Promise((resolve) => {
+    database.query(
+      `SELECT * FROM sessions 
+      JOIN users ON sessions.user_id = users.id 
+      WHERE sessions.id = '${sessionId}'
+      LIMIT 1`
+    )
+      .then((rows) => {
+        if (rows.info.numRows > 0) {
+          resolve(rows[0])
+        }
+      })
+  })
+  return promise
+}
+
 exports.removeSession = removeSession
 exports.userLoggedIn = userLoggedIn
 exports.getLoggedInUsers = getLoggedInUsers
 exports.createSession = createSession
+exports.getSessionById = getSessionById
